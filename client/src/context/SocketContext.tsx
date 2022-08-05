@@ -30,10 +30,12 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [usersNames, setUsersNames] = useState<string[]>([]);
   const navigate = useNavigate();
   function addNewUser(name: string) {
+    console.log("emit client");
     socket.emit("newUserCreate", name);
   }
   function addUserInfoListener() {
     socket.on("sendUser", ({ user, usersNames }: any) => {
+      console.log("got new user");
       localStorage.setItem("user", JSON.stringify(user));
       setUserData(user);
       setUsersNames(usersNames);
