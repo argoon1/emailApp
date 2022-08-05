@@ -39,6 +39,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
   }
   useEffect(() => {
     addUserInfoListener();
+    console.log(socket, "test");
     socket.on("connect", () => {
       console.log("connect");
     });
