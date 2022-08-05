@@ -1,5 +1,13 @@
+import SocketContext from "./context/SocketContext";
+import { BrowserRouter as Router } from "react-router-dom";
 function App() {
-  return <div className="App">app test</div>;
+  return (
+    <Router>
+      <SocketContext>
+        <></>
+      </SocketContext>
+    </Router>
+  );
 }
 
 export default App;
