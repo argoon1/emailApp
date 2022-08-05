@@ -11,7 +11,9 @@ interface SocketContextValue {
   sendNewMessage: (messageData: MessageDataForm, author: string) => void;
   usersNames: string[];
 }
-const socket = io("https://task5-live.herokuapp.com/");
+const socket = io("https://task5-live.herokuapp.com/", {
+  transports: ["websocket", "polling", "flashsocket"],
+});
 
 export const SocketContext = createContext<SocketContextValue>({
   addNewUser: () => {},
