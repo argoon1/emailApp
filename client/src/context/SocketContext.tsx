@@ -42,7 +42,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
   }
   useEffect(() => {
     addUserInfoListener();
-  }, [addUserInfoListener]);
+  }, []);
   useEffect(() => {
     if (!userData) {
       navigate("/");
