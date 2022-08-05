@@ -43,6 +43,8 @@ export function SocketProvider({ children }: SocketProviderProps) {
     socket.emit("newMessage", { message: messageData, author });
   }
   useEffect(() => {
+    console.log("use");
+    socket.on("connect", () => console.log("connect"));
     addUserInfoListener();
   }, []);
   useEffect(() => {
