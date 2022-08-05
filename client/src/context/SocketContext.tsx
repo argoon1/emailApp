@@ -43,12 +43,9 @@ export function SocketProvider({ children }: SocketProviderProps) {
   function sendNewMessage(messageData: MessageDataForm, author: string) {
     socket.emit("newMessage", { message: messageData, author });
   }
-  function removeSocketListeners() {
-    socket.off("sendUser");
-  }
+
   useEffect(() => {
     addUserInfoListener();
-    return removeSocketListeners;
   }, []);
 
   return (

@@ -6,7 +6,7 @@ import { Container } from "react-bootstrap";
 const SendMessage = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (localStorage.getItem("user")) navigate("/");
+    if (!localStorage.getItem("user")) navigate("/");
   }, []);
   return (
     <Container className="mx-auto mt-5 " fluid="sm">
