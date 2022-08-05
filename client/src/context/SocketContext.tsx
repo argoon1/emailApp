@@ -15,12 +15,7 @@ interface SocketContextValue {
   usersNames: string[];
 }
 
-export const SocketContext = createContext<SocketContextValue>({
-  addNewUser: () => {},
-  userData: null,
-  sendNewMessage: () => {},
-  usersNames: [],
-});
+export const SocketContext = createContext({});
 type SocketProviderProps = {
   children: JSX.Element;
 };
@@ -53,13 +48,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
     }
   }, [userData]);
   socket.on("connect", () => {});
-  return (
-    <SocketContext.Provider
-      value={{ addNewUser, userData, sendNewMessage, usersNames }}
-    >
-      {children}
-    </SocketContext.Provider>
-  );
+  return <SocketContext.Provider value={{}}>{children}</SocketContext.Provider>;
 }
 export default SocketProvider;
 export const useSocketCtx = () => useContext(SocketContext);
