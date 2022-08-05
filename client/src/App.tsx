@@ -1,9 +1,13 @@
-import SocketProvider from "./context/SocketContext";
+//import Routes from "./routes/Routes";
+import SocketContext from "./context/SocketContext";
+import { BrowserRouter as Router } from "react-router-dom";
 function App() {
   return (
-    <SocketProvider>
-      <div className="App">app test</div>
-    </SocketProvider>
+    <Router>
+      <SocketContext>
+        <></>
+      </SocketContext>
+    </Router>
   );
 }
 
