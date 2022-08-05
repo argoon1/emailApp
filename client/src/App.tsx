@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { io } from "socket.io-client";
+const socket = io("/api");
 function App() {
-  const socket = io("https://task5-live.herokuapp.com/");
   console.log(socket, "socket test");
   return (
     <Router>
