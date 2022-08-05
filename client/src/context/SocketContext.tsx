@@ -5,13 +5,14 @@ import {
   MessageDataForm,
   UserData,
 } from "../sharedTypes/sendMessageSharedTypes";
+import { SERVER_URL } from "../consts";
 interface SocketContextValue {
   addNewUser: (name: string) => void;
   userData: null | UserData;
   sendNewMessage: (messageData: MessageDataForm, author: string) => void;
   usersNames: string[];
 }
-const socket = io("https://task5-live.herokuapp.com/", {
+const socket = io(SERVER_URL, {
   transports: ["websocket", "polling", "flashsocket"],
 });
 
