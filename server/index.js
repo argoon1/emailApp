@@ -10,16 +10,19 @@ const { Socket } = require("dgram");
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+const mongoose = require("mongoose");
+const User = require("./models/user.model");
+mongoose.connect(
+  "mongodb+srv://Argon:data09@task4.pax4bca.mongodb.net/?retryWrites=true&w=majority"
+);
 app.use(cors());
 
-server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
+server.listen(PORT);
 async function userExists(name) {
   return await User.findOne({ name });
 }
 async function getUsersNames() {
   const usersNames = await User.find({});
-  console.log(usersNames.map(({ name }) => name));
   return await usersNames.map(({ name }) => name);
 }
 async function handleUserAlreadyExists(name, socket) {
@@ -35,7 +38,6 @@ async function createNewUser(name, socket) {
     name,
     messages: [],
   });
-  console.log({ user: newUser, usersNames: getUsersNames() });
 
   socket.emit("sendUser", { user: newUser, usersNames: await getUsersNames() });
 }
@@ -43,13 +45,11 @@ async function addNewUserListener(socket) {
   socket.on("newUserCreate", async (name) => {
     try {
       if (await userExists(name)) {
-        handleUserAlreadyExists(name, socket);
+        await handleUserAlreadyExists(name, socket);
         return;
       }
-      createNewUser(name, socket);
-    } catch (e) {
-      console.log("ERROR");
-    }
+      await createNewUser(name, socket);
+    } catch (e) {}
   });
 }
 async function addNewMessage(author, message) {
@@ -61,21 +61,16 @@ async function addNewMessage(author, message) {
       messages: [...messages, { ...newMessage, author }],
     }
   );
-  console.log("finished");
 }
 
 function addNewMessageListener(socket) {
   socket.on("newMessage", async ({ author, message }) => {
     try {
-      console.log(author, message);
       await addNewMessage(author, message);
-    } catch (e) {
-      console.log("FAILED");
-    }
+    } catch (e) {}
   });
 }
 io.on("connection", (socket) => {
-  console.log("CON");
   addNewUserListener(socket);
   addNewMessageListener(socket);
 });

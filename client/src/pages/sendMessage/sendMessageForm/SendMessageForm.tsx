@@ -2,21 +2,16 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import useSendMessageForm from "./useSendMessageForm";
 import { useSocketCtx } from "../../../context/SocketContext";
-import { useEffect } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 const SendMessageForm = () => {
   const { userData, sendNewMessage, usersNames } = useSocketCtx();
-  useEffect(() => {
-    console.log(userData, "USER FORM");
-  }, [userData]);
   const { messageData, updateMessageData, setRecipent, recipent } =
     useSendMessageForm();
   const { title, messageText } = messageData;
-  alert(usersNames);
   return (
     <>
-      <h1>Create new message</h1>
-
+      <h1>Send new message</h1>
+      aa
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -60,8 +55,8 @@ const SendMessageForm = () => {
             }}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+        <Button variant="primary" type="submit" className="text-center w-100">
+          Send new message
         </Button>
       </Form>
     </>

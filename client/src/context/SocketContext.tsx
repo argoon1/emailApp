@@ -30,12 +30,10 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [usersNames, setUsersNames] = useState<string[]>([]);
   const navigate = useNavigate();
   function addNewUser(name: string) {
-    console.log("emit client");
     socket.emit("newUserCreate", name);
   }
   function addUserInfoListener() {
     socket.on("sendUser", ({ user, usersNames }: any) => {
-      console.log("got new user");
       localStorage.setItem("user", JSON.stringify(user));
       setUserData(user);
       setUsersNames(usersNames);
@@ -45,18 +43,14 @@ export function SocketProvider({ children }: SocketProviderProps) {
   function sendNewMessage(messageData: MessageDataForm, author: string) {
     socket.emit("newMessage", { message: messageData, author });
   }
+  function removeSocketListeners() {
+    socket.off("sendUser");
+  }
   useEffect(() => {
     addUserInfoListener();
-    console.log(socket, "test");
-    socket.on("connect", () => {
-      console.log("connect");
-    });
+    return removeSocketListeners;
   }, []);
-  useEffect(() => {
-    if (!userData) {
-      navigate("/");
-    }
-  }, [userData]);
+
   return (
     <SocketContext.Provider
       value={{ addNewUser, userData, sendNewMessage, usersNames }}

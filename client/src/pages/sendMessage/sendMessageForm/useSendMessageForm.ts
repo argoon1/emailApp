@@ -2,13 +2,6 @@ import { useState } from "react";
 import { MessageData } from "../../../sharedTypes/sendMessageSharedTypes";
 import { Option } from "react-bootstrap-typeahead/types/types";
 const useSendMessageForm = () => {
-  function formatFieldName(fieldName: keyof typeof messageData): string {
-    return fieldName.split("").reduce((formattedFieldName, char) => {
-      if (char.toUpperCase() === char)
-        return formattedFieldName.concat(` ${char.toLowerCase()}`);
-      return formattedFieldName.concat(char);
-    }, "");
-  }
   const [messageData, setMessageData] = useState<MessageData>({
     title: "",
     messageText: "",
@@ -22,6 +15,13 @@ const useSendMessageForm = () => {
       ...prevMessageData,
       [fieldName]: newValue,
     }));
+  }
+  function formatFieldName(fieldName: keyof typeof messageData): string {
+    return fieldName.split("").reduce((formattedFieldName, char) => {
+      if (char.toUpperCase() === char)
+        return formattedFieldName.concat(` ${char.toLowerCase()}`);
+      return formattedFieldName.concat(char);
+    }, "");
   }
   return {
     messageData,
