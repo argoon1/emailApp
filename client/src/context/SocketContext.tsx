@@ -5,17 +5,20 @@ import {
   MessageDataForm,
   UserData,
 } from "../sharedTypes/sendMessageSharedTypes";
-const socket = io("https://task5-live.herokuapp.com/", {
-  transports: ["websocket", "polling", "flashsocket"],
-});
 interface SocketContextValue {
   addNewUser: (name: string) => void;
   userData: null | UserData;
   sendNewMessage: (messageData: MessageDataForm, author: string) => void;
   usersNames: string[];
 }
+const socket = io("https://task5-live.herokuapp.com/");
 
-export const SocketContext = createContext({});
+export const SocketContext = createContext<SocketContextValue>({
+  addNewUser: () => {},
+  userData: null,
+  sendNewMessage: () => {},
+  usersNames: [],
+});
 type SocketProviderProps = {
   children: JSX.Element;
 };
@@ -27,7 +30,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
     socket.emit("newUserCreate", name);
   }
   function addUserInfoListener() {
-    socket.on("sendUser", ({ user, usersNames }: any) => {
+    socket.on("sendUser", ({ user, usersNames }) => {
       localStorage.setItem("user", JSON.stringify(user));
       setUserData(user);
       setUsersNames(usersNames);
@@ -38,17 +41,21 @@ export function SocketProvider({ children }: SocketProviderProps) {
     socket.emit("newMessage", { message: messageData, author });
   }
   useEffect(() => {
-    console.log("use");
-    socket.on("connect", () => console.log("connect"));
     addUserInfoListener();
   }, []);
   useEffect(() => {
     if (!userData) {
       navigate("/");
     }
-  }, [userData]);
+  }, [userData, navigate]);
   socket.on("connect", () => {});
-  return <SocketContext.Provider value={{}}>{children}</SocketContext.Provider>;
+  return (
+    <SocketContext.Provider
+      value={{ addNewUser, userData, sendNewMessage, usersNames }}
+    >
+      {children}
+    </SocketContext.Provider>
+  );
 }
 export default SocketProvider;
 export const useSocketCtx = () => useContext(SocketContext);
