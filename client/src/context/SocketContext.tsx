@@ -5,13 +5,15 @@ import {
   MessageDataForm,
   UserData,
 } from "../sharedTypes/sendMessageSharedTypes";
+const socket = io("https://task5-live.herokuapp.com/", {
+  transports: ["websocket", "polling", "flashsocket"],
+});
 interface SocketContextValue {
   addNewUser: (name: string) => void;
   userData: null | UserData;
   sendNewMessage: (messageData: MessageDataForm, author: string) => void;
   usersNames: string[];
 }
-const socket = io("https://task5-live.herokuapp.com/");
 
 export const SocketContext = createContext<SocketContextValue>({
   addNewUser: () => {},
@@ -30,7 +32,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
     socket.emit("newUserCreate", name);
   }
   function addUserInfoListener() {
-    socket.on("sendUser", ({ user, usersNames }) => {
+    socket.on("sendUser", ({ user, usersNames }: any) => {
       localStorage.setItem("user", JSON.stringify(user));
       setUserData(user);
       setUsersNames(usersNames);
