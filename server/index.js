@@ -9,8 +9,7 @@ mongoose.connect(
 );
 const io = new Server(server, {
   cors: {
-    origin:
-      "https://62ed3d34ba5a227d313c375b--celadon-conkies-fa62e1.netlify.app/",
+    origin: "https://main--celadon-conkies-fa62e1.netlify.app/",
     methods: ["GET", "POST"],
   },
 });
