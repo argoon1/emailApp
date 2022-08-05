@@ -4,7 +4,8 @@ const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
 const server = http.createServer(app);
-const io = socketio(server, { origin: "*:*", methods: ["GET", "POST"] });
+const io = socketio(server);
+app.use(cors());
 
 server.listen(process.env.PORT, (res, reqq) => {});
 app.get("/", (res, req) => {
