@@ -41,8 +41,8 @@ async function createNewUser(name, socket) {
 
   socket.emit("sendUser", { user: newUser, usersNames: await getUsersNames() });
 }
-async function addNewUserListener(socket) {
-  socket.on("newUserCreate", async (name) => {
+async function addUserListener(socket) {
+  socket.on("getUser", async (name) => {
     try {
       if (await userExists(name)) {
         await handleUserAlreadyExists(name, socket);
@@ -71,6 +71,6 @@ function addNewMessageListener(socket) {
   });
 }
 io.on("connection", (socket) => {
-  addNewUserListener(socket);
+  addUserListener(socket);
   addNewMessageListener(socket);
 });

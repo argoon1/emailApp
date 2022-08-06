@@ -5,13 +5,13 @@ import { useSocketCtx } from "../../context/SocketContext";
 import { Container } from "react-bootstrap";
 const Name = () => {
   const { name, setName } = useName();
-  const { addNewUser } = useSocketCtx();
+  const { getUser } = useSocketCtx();
   return (
     <Container className="mx-auto mt-5 " fluid="sm">
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          addNewUser(name);
+          getUser(name);
         }}
       >
         <Form.Group controlId="userName">

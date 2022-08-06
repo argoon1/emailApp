@@ -7,7 +7,7 @@ import {
 } from "../sharedTypes/sendMessageSharedTypes";
 import { SERVER_URL } from "../consts";
 interface SocketContextValue {
-  addNewUser: (name: string) => void;
+  getUser: (name: string) => void;
   userData: null | UserData;
   sendNewMessage: (messageData: MessageDataForm, author: string) => void;
   usersNames: string[];
@@ -17,7 +17,7 @@ const socket = io(SERVER_URL, {
 });
 
 export const SocketContext = createContext<SocketContextValue>({
-  addNewUser: () => {},
+  getUser: () => {},
   userData: null,
   sendNewMessage: () => {},
   usersNames: [],
@@ -29,8 +29,8 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [userData, setUserData] = useState<null | UserData>(null);
   const [usersNames, setUsersNames] = useState<string[]>([]);
   const navigate = useNavigate();
-  function addNewUser(name: string) {
-    socket.emit("newUserCreate", name);
+  function getUser(name: string) {
+    socket.emit("getUser", name);
   }
   function addUserInfoListener() {
     socket.on("sendUser", ({ user, usersNames }: any) => {
@@ -50,7 +50,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
 
   return (
     <SocketContext.Provider
-      value={{ addNewUser, userData, sendNewMessage, usersNames }}
+      value={{ getUser, userData, sendNewMessage, usersNames }}
     >
       {children}
     </SocketContext.Provider>
