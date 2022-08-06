@@ -16,17 +16,10 @@ const useSendMessageForm = () => {
       [fieldName]: newValue,
     }));
   }
-  function formatFieldName(fieldName: keyof typeof messageData): string {
-    return fieldName.split("").reduce((formattedFieldName, char) => {
-      if (char.toUpperCase() === char)
-        return formattedFieldName.concat(` ${char.toLowerCase()}`);
-      return formattedFieldName.concat(char);
-    }, "");
-  }
+
   return {
     messageData,
     updateMessageData,
-    formatFieldName,
     recipent,
     setRecipent,
   };

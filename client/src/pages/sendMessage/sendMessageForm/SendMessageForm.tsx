@@ -11,7 +11,6 @@ const SendMessageForm = () => {
   return (
     <>
       <h1>Send new message</h1>
-      aa
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -22,7 +21,7 @@ const SendMessageForm = () => {
         }}
       >
         <Form.Group>
-          <Form.Label>hello</Form.Label>
+          <Form.Label>Enter recipent</Form.Label>
           <Typeahead
             id="sendToName"
             options={usersNames}
